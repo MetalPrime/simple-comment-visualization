@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const passwordSchema = z.object({
+export const signInSchema = z.object({
   email: z.email({ message: "Invalid email address" }),
   password: z
   .string()
@@ -13,4 +13,4 @@ export const passwordSchema = z.object({
 });
 
 // Infer the TypeScript type from the schema
-export type PasswordSchema = z.infer<typeof passwordSchema>;
+export type SignInSchemaSchema = z.infer<typeof signInSchema>;
