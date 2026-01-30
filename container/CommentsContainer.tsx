@@ -10,7 +10,7 @@ export default function CommentsProvider({ comments }: { comments: CommentSchema
     const [optimisticComments, addOptimisticComment] = useOptimistic(
         comments,
         (_comments: CommentSchema[], newComment: CommentSchema) => {
-            return [..._comments, { adding: true , ...newComment}];
+            return [{ adding: true, ...newComment }, ..._comments];
         },
     );
 
@@ -27,6 +27,7 @@ export default function CommentsProvider({ comments }: { comments: CommentSchema
                         comment={comment.comment}
                         autor={comment.autor}
                         email={comment.email}
+                        adding={(comment as any).adding}
                     />
                 )) :
                     (

@@ -36,7 +36,7 @@ export default function CustomComment({
                     {comment}
                 </p>
             </div>
-            { adding && <div className="mt-2 w-full text-right absolute bottom-2 right-4 bg-zinc-900/75 px-2 py-1 rounded-md">
+            { adding && <div className="mt-2 text-right absolute bottom-2 right-4 bg-zinc-900/75 px-2 py-1 rounded-md">
                 <p className="text-sm text-gray-500 italic">Añadiendo comentario...</p>
             </div>}
         </div>

@@ -2,7 +2,6 @@
 
 import { addComment } from "@/action/addComment";
 import { errorInitialComment } from "@/constants/Comment";
-import { createClient } from "@/database/client";
 import { CommentSchema, commentSchema } from "@/schemas/CommentSchema"
 import React, { startTransition } from "react";
 
@@ -13,8 +12,9 @@ interface CustomFormProps {
 export default function CustomForm({ addOptimisticComment }: CustomFormProps) {
 
     const [formData, setFormData] = React.useState<Partial<CommentSchema>>({});
-    const [loading, setLoading] = React.useState(false);
     const [errors, setErrors] = React.useState<Record<keyof CommentSchema, string>>(errorInitialComment);
+
+    const [loading, setLoading] = React.useState(false);
 
     const handleComment = (field: keyof CommentSchema, value: string) => {
         setFormData({
@@ -61,13 +61,8 @@ export default function CustomForm({ addOptimisticComment }: CustomFormProps) {
         }
 
         try {
-            setTimeout(async () => {
-                const request = await addComment(data);
-                // For debugging purposes
-                // const supabase = createClient();
-                // const request = await supabase.from('comments').insert(data);
-                console.log("Insert response:", request);
-            }, 2000);
+            await addComment(data);
+            console.log("Comment added successfully");
         } catch (error) {
             console.error("Error submitting comment:", error);
         } finally {
