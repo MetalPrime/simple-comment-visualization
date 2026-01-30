@@ -5,7 +5,11 @@ import { createClient } from "@/database/client";
 import { CommentSchema, commentSchema } from "@/schemas/CommentSchema"
 import React from "react";
 
-export default function CustomForm() {
+interface CustomFormProps {
+    addOptimisticComment?: (comment: CommentSchema) => void;
+ }
+
+export default function CustomForm({ addOptimisticComment }: CustomFormProps) {
 
     const [formData, setFormData] = React.useState<Partial<CommentSchema>>({});
     const [loading, setLoading] = React.useState(false);
@@ -49,8 +53,12 @@ export default function CustomForm() {
         }
 
         setErrors(errorInitialComment);
+        if (addOptimisticComment) {
+            addOptimisticComment(data);
+        }
 
         try {
+            sleep(2000); // Simular retardo de red
             const supabase = createClient();
             const request = await supabase.from('comments').insert([data]);
             console.log("Insert response:", request);
@@ -99,4 +107,8 @@ export default function CustomForm() {
              font-medium py-2 rounded-md transition">{loading ? 'Añadiendo...' : 'Añadir Comentario'}</button>
         </form>
     )
+}
+
+function sleep(arg0: number) {
+    throw new Error("Function not implemented.");
 }

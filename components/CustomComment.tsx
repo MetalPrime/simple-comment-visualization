@@ -5,16 +5,18 @@ interface CustomCommentProps {
     comment: string;
     autor: string;
     email?: string;
+    adding?: boolean;
 }
 
 export default function CustomComment({
     date,
     comment,
     autor,
-    email
+    email,
+    adding
 }: CustomCommentProps) {
     return (
-        <div className="flex items-center gap-2 rounded-sm bg-zinc-800 p-4 flex-col mb-4 w-114">
+        <div className="flex items-center gap-2 rounded-sm bg-zinc-800 p-4 flex-col mb-4 w-114 relative">
             <div className="flex w-full justify-between">
                 <div className="flex flex-col">
                     <p className="font-medium text-heading truncate">
@@ -34,6 +36,9 @@ export default function CustomComment({
                     {comment}
                 </p>
             </div>
+            { adding && <div className="mt-2 w-full text-right absolute bottom-2 right-4 bg-zinc-900/75 px-2 py-1 rounded-md">
+                <p className="text-sm text-gray-500 italic">Añadiendo comentario...</p>
+            </div>}
         </div>
     )
 }
