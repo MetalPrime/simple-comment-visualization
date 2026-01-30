@@ -9,3 +9,7 @@ export const commentSchema = z.object({
 
 // Infer the TypeScript type from the schema
 export type CommentSchema = z.infer<typeof commentSchema>;
+
+export type CommentData = CommentSchema & { adding?: boolean, id?: string };
+
+export type CommentStatus = 'IDLE' | 'LOADING' | 'ERROR' | 'SUCCESS';

@@ -2,7 +2,7 @@
 
 import CustomComment from "@/components/CustomComment";
 import CustomForm from "@/components/CustomForm";
-import { CommentSchema } from "@/schemas/CommentSchema";
+import { CommentData, CommentSchema } from "@/schemas/CommentSchema";
 import { useOptimistic } from "react";
 
 export default function CommentsProvider({ comments }: { comments: CommentSchema[] }) {
@@ -20,14 +20,14 @@ export default function CommentsProvider({ comments }: { comments: CommentSchema
             <CustomForm addOptimisticComment={addOptimisticComment} />
             <p className="w-full my-4 text-center">Comentarios</p>
             {
-                optimisticComments ? optimisticComments.map((comment: CommentSchema) => (
+                optimisticComments ? optimisticComments.map((comment: CommentData) => (
                     <CustomComment
-                        key={comment.created_at}
+                        key={comment.id}
                         date={new Date(comment.created_at)}
                         comment={comment.comment}
                         autor={comment.autor}
                         email={comment.email}
-                        adding={(comment as any).adding}
+                        adding={comment.adding}
                     />
                 )) :
                     (
