@@ -1,13 +1,14 @@
 'use client';
 
+import { addComment } from "@/action/addComment";
 import { errorInitialComment } from "@/constants/Comment";
 import { createClient } from "@/database/client";
 import { CommentSchema, commentSchema } from "@/schemas/CommentSchema"
-import React from "react";
+import React, { startTransition } from "react";
 
 interface CustomFormProps {
     addOptimisticComment?: (comment: CommentSchema) => void;
- }
+}
 
 export default function CustomForm({ addOptimisticComment }: CustomFormProps) {
 
@@ -54,14 +55,19 @@ export default function CustomForm({ addOptimisticComment }: CustomFormProps) {
 
         setErrors(errorInitialComment);
         if (addOptimisticComment) {
-            addOptimisticComment(data);
+            startTransition(() => {
+                addOptimisticComment(data);
+            });
         }
 
         try {
-            sleep(2000); // Simular retardo de red
-            const supabase = createClient();
-            const request = await supabase.from('comments').insert([data]);
-            console.log("Insert response:", request);
+            setTimeout(async () => {
+                const request = await addComment(data);
+                // For debugging purposes
+                // const supabase = createClient();
+                // const request = await supabase.from('comments').insert(data);
+                console.log("Insert response:", request);
+            }, 2000);
         } catch (error) {
             console.error("Error submitting comment:", error);
         } finally {
@@ -107,8 +113,4 @@ export default function CustomForm({ addOptimisticComment }: CustomFormProps) {
              font-medium py-2 rounded-md transition">{loading ? 'Añadiendo...' : 'Añadir Comentario'}</button>
         </form>
     )
-}
-
-function sleep(arg0: number) {
-    throw new Error("Function not implemented.");
 }
