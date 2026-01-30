@@ -24,6 +24,8 @@ export default function CustomForm() {
         setErrors(errorInitialComment);
         setLoading(true);
 
+        const form = e.currentTarget;
+
         const data: CommentSchema = {
             autor: formData.autor ?? "",
             email: formData.email || undefined,
@@ -56,6 +58,8 @@ export default function CustomForm() {
             console.error("Error submitting comment:", error);
         } finally {
             setLoading(false);
+            setFormData({});
+            form.reset();
         }
     }
 
@@ -91,7 +95,7 @@ export default function CustomForm() {
                     errors.comment && <p className="text-sm text-red-500 mt-1">{errors.comment}</p>
                 }
             </div>
-            <button type="submit" className="w-full bg-gray-700 hover:bg-gray-600 text-gray-100 
+            <button type="submit" disabled={loading} className="w-full bg-gray-700 hover:bg-gray-600 text-gray-100 
              font-medium py-2 rounded-md transition">{loading ? 'Añadiendo...' : 'Añadir Comentario'}</button>
         </form>
     )
