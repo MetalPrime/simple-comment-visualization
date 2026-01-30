@@ -5,7 +5,7 @@ export default async function Home() {
 
   const supabase = createClient();
 
-  const { data: comments } = await supabase.from('comments').select();
+  const { data: comments } = await supabase.from('comments').select().order('created_at', { ascending: false });
 
 
   return (
